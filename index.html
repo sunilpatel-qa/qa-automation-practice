@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>QA Practice Site</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body{font-family:Segoe UI,Arial,sans-serif;max-width:760px;margin:24px auto;padding:0 16px;color:#1d2433}
+section{border:1px solid #c9d1e0;border-radius:6px;padding:12px 16px;margin:14px 0}
+h2{font-size:17px;margin:0 0 8px}input,select,button{font:inherit;padding:6px 8px;margin:3px 0}
+.tip{display:none;background:#eef;padding:4px 8px}.hov:hover+.tip{display:block}
+table{border-collapse:collapse}td,th{border:1px solid #c9d1e0;padding:4px 10px}
+#error{color:#b00020}
+</style></head><body>
+<h1>QA Practice Site</h1>
+<p>Login: <b>student</b> / <b>Password123</b></p>
+
+<section id="login-box"><h2>1. Login</h2>
+<label>Username <input id="username" placeholder="Username"></label><br>
+<label>Password <input id="password" type="password" placeholder="Password"></label><br>
+<button id="login-btn">Login</button>
+<div id="error" role="alert"></div><div id="welcome"></div></section>
+
+<section><h2>2. Checkbox, radio, dropdown</h2>
+<label><input type="checkbox" id="agree"> I agree</label><br>
+<label><input type="radio" name="g" value="male"> Male</label>
+<label><input type="radio" name="g" value="female"> Female</label><br>
+<label>City <select id="city"><option>Select</option><option>Pune</option><option>Ahmedabad</option><option>Surat</option></select></label>
+<div id="city-out"></div></section>
+
+<section><h2>3. Alerts</h2>
+<button id="alert-btn">Show alert</button>
+<button id="confirm-btn">Show confirm</button>
+<div id="result"></div></section>
+
+<section><h2>4. Iframe</h2>
+<iframe id="frame1" title="demo" height="60" srcdoc="<p id='inside'>Hello from iframe</p>"></iframe></section>
+
+<section><h2>5. New tab</h2><a id="newtab" href="new.html" target="_blank">Open new tab</a></section>
+
+<section><h2>6. Upload and download</h2>
+<input type="file" id="file"><div id="file-out"></div>
+<a id="download" download="sample.txt" href="data:text/plain;charset=utf-8,QA%20practice%20file">Download sample.txt</a></section>
+
+<section><h2>7. Hover</h2><span class="hov" id="hover-me">Hover over me</span><div class="tip" id="tip">Tooltip visible</div></section>
+
+<section><h2>8. Dynamic loading</h2>
+<button id="load-btn">Start</button><div id="dyn-out"></div></section>
+
+<section><h2>9. Table</h2>
+<table id="table"><tr><th>Name</th><th>City</th></tr>
+<tr><td>Amit</td><td>Pune</td></tr><tr><td>Neha</td><td>Surat</td></tr><tr><td>Ravi</td><td>Ahmedabad</td></tr></table></section>
+
+<section><h2>10. API data</h2>
+<button id="users-btn">Load users</button><div id="user-count"></div></section>
+
+<script>
+const $=id=>document.getElementById(id);
+$('login-btn').onclick=()=>{
+  const ok=$('username').value==='student'&&$('password').value==='Password123';
+  $('error').textContent=ok?'':'Invalid credentials';
+  $('welcome').textContent=ok?'Welcome student':'';
+};
+$('city').onchange=e=>$('city-out').textContent='Selected: '+e.target.value;
+$('alert-btn').onclick=()=>{alert('Hello QA');$('result').textContent='Alert closed';};
+$('confirm-btn').onclick=()=>{$('result').textContent=confirm('Are you sure?')?'You clicked OK':'You clicked Cancel';};
+$('file').onchange=e=>$('file-out').textContent='Uploaded: '+e.target.files[0].name;
+$('load-btn').onclick=()=>{$('dyn-out').textContent='Loading...';setTimeout(()=>$('dyn-out').textContent='Finished!',2000);};
+$('users-btn').onclick=async()=>{const r=await fetch('users.json');const d=await r.json();$('user-count').textContent='Users: '+d.length;};
+</script></body></html>
